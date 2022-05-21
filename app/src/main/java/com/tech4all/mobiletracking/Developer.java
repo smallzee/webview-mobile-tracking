@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +37,9 @@ public class Developer extends AppCompatActivity {
         recyclerView.setAdapter(listAdapters);
 
         String JSON_FILE = "{'error' : '1', " +
-                "'0' : {'matric' : 'Cs20190200967', 'name' : Bamidele Taiwo N.', 'level' : 'ND2 DPT'}, " +
-                "'1' : {'matric' : 'CS20190201626', name : 'Adeleke Oluwaferanmi T.', 'level' : 'ND2 DPT'}";
+                "'0' : {'matric' : 'CS20190200967', 'name' : Bamidele Taiwo N.', 'level' : 'ND2 DPT'}, " +
+                "'1' : {'matric' : 'CS20190201626', name : 'Adeleke Oluwaferanmi T.', 'level' : 'ND2 DPT'}, " +
+                "'2' : {'matric' : 'CS20190105843', name : 'FOLAMI FUNMILAYO S.', 'level' : 'ND2 FT'}}";
 
         String matric, name, level;
 
