@@ -32,7 +32,7 @@ public class Developers extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewAdapters);
 
         String JSON_FILE = "{'error' : '1', " +
-                "'0' : {'matric' : 'Bamidele Taiwo Nafisat', 'name' : 'Cs20190200967', 'level' : 'ND 2 DPT', 'phone' : ''}, " +
+                "'0' : {'matric' : 'Bamidele Taiwo Nafisat', 'name' : 'CS20190200967', 'level' : 'ND 2 DPT', 'phone' : ''}, " +
                 "'1' : {'matric' : 'Adeleke Oluwaferanmi Temitope', name : 'CS20190201626', 'level' : 'ND 2 DPT','phone' : ''}}";
 
         String matric,name,level,phone;
