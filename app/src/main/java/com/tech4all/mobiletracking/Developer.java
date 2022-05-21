@@ -22,7 +22,6 @@ public class Developer extends AppCompatActivity {
     public RecyclerView recyclerView;
     public ListAdapters listAdapters;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
