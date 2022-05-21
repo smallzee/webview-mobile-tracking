@@ -3,12 +3,13 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.tech4all.mobiletracking"
-        minSdk 21
-        targetSdk 32
+        minSdkVersion 16
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -26,6 +27,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'

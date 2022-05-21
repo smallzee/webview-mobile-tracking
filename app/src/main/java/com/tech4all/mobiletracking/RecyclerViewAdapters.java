@@ -1,16 +1,14 @@
 package com.tech4all.mobiletracking;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
@@ -19,12 +17,12 @@ import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
-public class ListAdapters extends RecyclerView.Adapter<ListAdapters.MyViewHolder>{
+public class RecyclerViewAdapters extends RecyclerView.Adapter<RecyclerViewAdapters.MyViewHolder>{
 
     Context mContext;
     private List<Lists> mData;
 
-    public ListAdapters(Context mContext, List<Lists> mData) {
+    public RecyclerViewAdapters(Context mContext, List<Lists> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -33,7 +31,7 @@ public class ListAdapters extends RecyclerView.Adapter<ListAdapters.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view;
+        android.view.View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lists, parent,false);
         MyViewHolder viewHolder = new MyViewHolder(view);
 
@@ -43,7 +41,7 @@ public class ListAdapters extends RecyclerView.Adapter<ListAdapters.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         holder.st_matric.setText(((Lists) mData.get(position)).getMatric());
-        holder.st_name.setText(((Lists) mData.get(position)).getName());
+        holder.st_name.setText(((Lists) mData.get(position)).getName() +" "+ ((Lists) mData.get(position)).getLevel());
 
         String is_click = ((Lists) mData.get(position)).getIs_click();
 
@@ -52,13 +50,21 @@ public class ListAdapters extends RecyclerView.Adapter<ListAdapters.MyViewHolder
                 .oval(true)
                 .build();
 
-        if (!mData.get(position).getImage().isEmpty()){
-            Picasso.get().load(mData.get(position).getImage()).transform(transformation).into(holder.st_image);
+        Picasso.get().load(mData.get(position).getImage()).transform(transformation).into(holder.st_image);
+
+        if (is_click.equals("true")){
+            holder.click.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v) {
+                    String view_id = ((Lists) RecyclerViewAdapters.this.mData.get(position)).getId();
+
+                    Intent intent = new Intent(v.getContext(), Developers.class);
+                    intent.putExtra("view_id", view_id);
+                    v.getContext().startActivity(intent);
+
+                }
+            });
         }
-
-        Bundle bundle = new Bundle();
-        bundle.putString("view_id", ((Lists) mData.get(position)).getId());
-
 
     }
 
@@ -67,7 +73,7 @@ public class ListAdapters extends RecyclerView.Adapter<ListAdapters.MyViewHolder
         return mData.size();
     }
 
-    public ListAdapters(List<Lists> mData){
+    public RecyclerViewAdapters(List<Lists> mData){
         this.mData = mData;
     }
 
@@ -75,10 +81,10 @@ public class ListAdapters extends RecyclerView.Adapter<ListAdapters.MyViewHolder
 
         private LinearLayout click;
         private ImageView st_image;
-        private TextView st_matric,st_name,st_level;
+        private TextView st_matric;
+        private TextView st_name;
 
-
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull android.view.View itemView) {
 
             super(itemView);
 
