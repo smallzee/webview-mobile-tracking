@@ -57,8 +57,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class Webview extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class Webview extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_CODE = 123;
     private WebView mwebView;
     private RelativeLayout relativeLayout;
@@ -103,7 +102,7 @@ public class Webview extends AppCompatActivity
 
         //myApplication = MyApplication.getInstance();
 
-        swipe.setColorSchemeResources(R.color.colorPrimaryDark);
+        swipe.setColorSchemeResources(R.color.white);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -202,96 +201,14 @@ public class Webview extends AppCompatActivity
         mwebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
         mwebView.getSettings().setAppCacheEnabled(true);
         mwebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mwebView.getSettings().setLoadWithOverviewMode(true);     mwebView.getSettings().setDomStorageEnabled(true);
+        mwebView.getSettings().setLoadWithOverviewMode(true);
+        mwebView.getSettings().setDomStorageEnabled(true);
         mwebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         WebSettings webSettings = mwebView.getSettings();
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webSettings.setSavePassword(true);
         webSettings.setSaveFormData(true);
         webSettings.setEnableSmoothTransition(true);
-    }
-
-
-    @SuppressLint("RestrictedApi")
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-
-        /*if (menu instanceof MenuBuilder) {
-            ((MenuBuilder) menu).setOptionalIconsVisible(true);
-        }
-        getMenuInflater().inflate(R.menu.main, menu);*/
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public void onPause() {
-        /*if (AdView != null) {
-            AdView.pause();
-            AdView.setVisibility(View.VISIBLE);
-        }*/
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        /*if (AdView != null) {
-            AdView.setVisibility(View.VISIBLE);
-            AdView.resume();
-        }*/
-    }
-
-    /**
-     * Called before the activity is destroyed
-     */
-    @Override
-    public void onDestroy() {
-        /*if (AdView != null) {
-            AdView.destroy();
-            AdView.setVisibility(View.GONE);
-        }
-        super.onDestroy();*/
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        /*
-        switch(item.getItemId()){
-            //noinspection SimplifiableIfStatement
-            case R.id.Share:
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/pain");
-                shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("<p>Shared From</p>\n" + getResources().getString(R.string.app_name)) + "\n"+ myCurruntURL);
-                startActivity(Intent.createChooser(shareIntent,"Share.."));
-                return true;
-            case R.id.Home:
-                checkConnection();
-                GoHome();
-                break;
-            case R.id.Refresh:
-                checkConnection();
-                mwebView.reload();
-                break;
-            case R.id.back:
-                checkConnection();
-                GoBack();
-                break;
-            case R.id.previous:
-                checkConnection();
-                if(mwebView.canGoForward()){
-                    mwebView.goForward();
-                }
-                break;
-        }
-         */
-        return super.onOptionsItemSelected(item);
     }
 
     public void GoBack() {
@@ -303,66 +220,6 @@ public class Webview extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        /*
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        Menu m = navigationView.getMenu();
-        int id = item.getItemId();
-        if (id == R.id.nav_Main){
-            boolean b=!m.findItem(R.id.sub_item1).isVisible();
-            //setting submenus visible state
-            m.findItem(R.id.sub_item1).setVisible(b);
-            return true;
-        } else if (id == R.id.sub_item1){
-            mwebView.loadUrl("https://asyarfs.org/");
-        }else if (id == R.id.feedback) {
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:"+ MainActivity.this.getString(R.string.about_us_email_text)));
-            intent.setPackage("com.google.android.gm");
-            intent.putExtra(Intent.EXTRA_SUBJECT,MainActivity.this.getString(R.string.app_name));
-            startActivity(intent);
-        } else if (id == R.id.shareapp) {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.app_name);
-            String shareMessage= "Let me recommend you this application\n\n";
-            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-            startActivity(Intent.createChooser(shareIntent, "choose one"));
-        }
-        else if (id == R.id.about){
-            startActivity(new Intent(MainActivity.this, AboutActivity.class));
-            return true;
-        }
-        else if (id == R.id.privacy){
-            startActivity(new Intent(MainActivity.this, Privacy_Policy.class));
-        }
-        else if (id == R.id.rateapp){
-            Uri uri = Uri.parse("market://details?id=" + getApplication().getPackageName());
-            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-            // To count with Play market backstack, After pressing back button,
-            // to taken back to our application, we need to add following flags to intent.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-            }
-            try {
-                startActivity(goToMarket);
-            } catch (ActivityNotFoundException e) {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=" + getApplication().getPackageName())));
-            }
-        }
-        else if (id == R.id.exit){
-            finish();
-        }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);*/
-        return true;
-    }
 
     private class myChrome extends WebChromeClient {
         private View mCustomView;
