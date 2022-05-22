@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,11 +22,14 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-
     Button developer,login;
     TelephonyManager telephonyManager;
-    String IMEINumber;
+    String IMEINumber,deviceName;
     private static final int REQUEST_CODE = 101;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private int requestCode;
+    private String[] permissions;
+    private int[] grantResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         developer = findViewById(R.id.developer);
         login = findViewById(R.id.login);
-
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -51,9 +54,22 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                IMEINumber = telephonyManager.getDeviceId();
+                if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
+                    return;
+                }
 
-                Toast.makeText(MainActivity.this, IMEINumber, Toast.LENGTH_SHORT).show();
+
+
+
+                IMEINumber = telephonyManager.getDeviceId();
+                deviceName = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
+
+                startActivity(new Intent(getApplicationContext(), Webview.class));
 
             }
         });
@@ -67,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
         switch (requestCode) {
@@ -75,15 +92,25 @@ public class MainActivity extends AppCompatActivity {
 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Device Permission granted.", Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    Toast.makeText(this, "Permission denied.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Device Permission denied.", Toast.LENGTH_SHORT).show();
 
                 }
 
             }
+
+            case LOCATION_PERMISSION_REQUEST_CODE : {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "GPS Permission granted.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "GPS Permission is denied!", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
+
+
     }
 }
